@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ListViewExam</string>
+
+    <array name="ListEntries">
+        <item>Ipsum Lorem</item>
+        <item>Ipsum Lorem</item>
+        <item>Ipsum Lorem</item>
+        <item>Ipsum Lorem</item>
+        <item>Ipsum Lorem</item>
+        <item>Ipsum Lorem</item>
+    </array>
+</resources>
