@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private var player1=ArrayList<Int>()
@@ -40,13 +41,14 @@ class MainActivity : AppCompatActivity() {
     fun playGame(id:Int, buttonSelected:Button) {
         if(turn==1) {
             buttonSelected.text="X"
-            buttonSelected.setBackgroundColor(Color.GREEN)
+            buttonSelected.setBackgroundResource(R.color.blue)
             player1.add(id)
             turn=2
+            AIPlay()
         }
         else {
             buttonSelected.text="O"
-            buttonSelected.setBackgroundColor(Color.BLUE)
+            buttonSelected.setBackgroundResource(R.color.darkgreen)
             player2.add(id)
             turn=1
         }
@@ -90,5 +92,27 @@ class MainActivity : AppCompatActivity() {
                 emptyCells.add(id)
             }
         }
+
+        var rand= Random()
+        val randIdx=rand.nextInt(emptyCells.size-0)+0
+        val cell=emptyCells[randIdx]
+
+        var selectedButton:Button?
+        when(cell) {
+            1->selectedButton=button1
+            2->selectedButton=button2
+            3->selectedButton=button3
+            4->selectedButton=button4
+            5->selectedButton=button5
+            6->selectedButton=button6
+            7->selectedButton=button7
+            8->selectedButton=button8
+            9->selectedButton=button9
+            else->{
+                selectedButton=button1
+            }
+        }
+
+        playGame(cell,selectedButton)
     }
 }
