@@ -8,12 +8,21 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    var isNewOp=true
+    var op=""
+    var prevNumber=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
 
     fun onClick_buttonNumberEvent(view: View) {
+        if(isNewOp==true) {
+            etShowNumber.setText("")
+        }
+        var isNewOp=false
+
         val EntryData = etShowNumber.text
 
         val selectedButton=view as Button
@@ -78,5 +87,44 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+
+        prevNumber=etShowNumber.text.toString()
+        isNewOp=true
+    }
+
+    fun onClick_buttonEqualEvent(view:View) {
+
+        val newNumber=etShowNumber.text.toString()
+        var finalNumber:Double?=null
+
+        when(op) {
+            "+"-> {
+                finalNumber=prevNumber.toDouble() + newNumber.toDouble()
+            }
+            "-"-> {
+                finalNumber=prevNumber.toDouble() - newNumber.toDouble()
+            }
+            "*"-> {
+                finalNumber=prevNumber.toDouble() * newNumber.toDouble()
+            }
+            "/"-> {
+                finalNumber=prevNumber.toDouble() / newNumber.toDouble()
+            }
+        }
+        etShowNumber.setText(finalNumber.toString())
+        isNewOp=true
+    }
+
+    fun onClick_buttonPercent(view:View) {
+
+        val number=etShowNumber.text.toString().toDouble()/100
+
+        etShowNumber.setText(number.toString())
+        isNewOp=true
+    }
+
+    fun onClick_buttonClean(view:View) {
+        etShowNumber.setText("0")
+        isNewOp=true
     }
 }
