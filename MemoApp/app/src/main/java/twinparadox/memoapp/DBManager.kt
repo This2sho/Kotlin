@@ -59,4 +59,14 @@ class DBManager {
         val cursor=builder.query(sqlDB,projection,selection, selectionArgs,null,null,sorOrder)
         return cursor
     }
+
+    fun Delete(selection:String, selectionArgs: Array<String>):Long {
+        val count=sqlDB!!.delete(dbTable,selection,selectionArgs)
+        return count.toLong()
+    }
+
+    fun Update(values:ContentValues, selection:String, selectionArgs:Array<String>):Long {
+        val count=sqlDB!!.update(dbTable,values,selection,selectionArgs)
+        return count.toLong()
+    }
 }

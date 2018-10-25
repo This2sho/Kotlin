@@ -31,6 +31,13 @@ class MainActivity : AppCompatActivity() {
 
 
         // Load from DB
+        LoadQuery("%")
+    }
+
+    // Always Load from DB
+    override fun onResume() {
+        super.onResume()
+        LoadQuery("%")
     }
 
     fun LoadQuery(title:String) {
@@ -49,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             } while(cursor.moveToNext())
         }
 
-        var myMemosAdapter=MyMemosAdapter(listMemos)
+        var myMemosAdapter=MyMemosAdapter(this, listMemos)
         listViewMemos.adapter=myMemosAdapter
     }
 
@@ -92,8 +99,10 @@ class MainActivity : AppCompatActivity() {
 
     inner class MyMemosAdapter:BaseAdapter{
         var listMemosAdapter=ArrayList<Memo>()
-        constructor(listMemosAdapter:ArrayList<Memo>):super() {
+        var context:Context?=null
+        constructor(context:Context, listMemosAdapter:ArrayList<Memo>):super() {
             this.listMemosAdapter=listMemosAdapter
+            this.context=context
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -102,6 +111,14 @@ class MainActivity : AppCompatActivity() {
 
             myView.textViewTitle.text=myMemo.nodeTitle
             myView.textViewContent.text=myMemo.nodeContent
+            myView.imageViewDelete.setOnClickListener (View.OnClickListener {
+                var dbManager=DBManager(this.context!!)
+                var selectionArgs=arrayOf(myMemo.nodeID.toString())
+                dbManager.Delete("ID=?",selectionArgs)
+            })
+            myView.imageViewCreate.setOnClickListener(View.OnClickListener {
+                GoToUpdate(myMemo)
+            })
 
             return myView
         }
@@ -117,5 +134,13 @@ class MainActivity : AppCompatActivity() {
         override fun getCount(): Int {
             return listMemosAdapter.size
         }
+    }
+
+    fun GoToUpdate(memo:Memo) {
+        var intent= Intent(this,AddMemos::class.java)
+        intent.putExtra("ID",memo.nodeID)
+        intent.putExtra("Title",memo.nodeTitle)
+        intent.putExtra("Content",memo.nodeContent)
+        startActivity(intent)
     }
 }
